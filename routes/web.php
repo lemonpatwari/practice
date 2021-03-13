@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +19,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';
+
+
+Route::get('/url', [DashboardController::class,'url']);
+
+Route::get('/dashboard', [DashboardController::class,'index']);
+Route::get('/test', [DashboardController::class,'test']);
+Route::resource('users', UserController::class);
+Route::resource('roles', RoleController::class);
+Route::resource('permissions', \App\Http\Controllers\PermissionController::class);
