@@ -30,6 +30,7 @@ require __DIR__.'/auth.php';
 
 
 Route::get('/url', [DashboardController::class,'url']);
+Route::get('/test', [DashboardController::class,'test']);
 
 Route::get('/dashboard', [DashboardController::class,'index']);
 Route::get('/test', [DashboardController::class,'test']);

@@ -60,7 +60,7 @@ class DashboardController extends Controller
             $data[$key]['controller_name'] = $array[0] ?? null;
             $data[$key]['controller_method'] = $array[1] ?? null;
 
-            /*$array = explode('.', $route->getName());
+            $array = explode('.', $route->getName());
             $controller_name = $array[0] ?? null;
             $controller_method = $array[1] ?? null;
 
@@ -80,11 +80,11 @@ class DashboardController extends Controller
             \DB::table('permissions')->insert([
                 'name' => $permission,
                 'guard_name' => 'web'
-            ]);*/
+            ]);
 
         }
 
-        return $data;
+        return 'working';
     }
 
     public function url()
