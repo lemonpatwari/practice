@@ -112,7 +112,7 @@ class DashboardController extends Controller
     public function emailStore(Request $request)
     {
 
-        $providerArray = Provider::pluck('name')->toArray();
+        $providerArray = Provider::pluck('sender_email')->toArray();
         $providerCount = count($providerArray);
         $providerCounter = 0;
 
@@ -134,15 +134,10 @@ class DashboardController extends Controller
             $hour = (int)date("H", $delayTime);
 
             $job = (new SendUpComingStudentEmail($providerArray[$providerCounter], trim($email), $content, '1'))
-                ->onQueue('campaign')
-//                ->onQueue('default')
+                ->onQueue('mouse')
                 ->delay($delayTime - time());
 
             $this->dispatch($job);
-
-            /*\Mail::to(trim($email))->send(
-                new \App\Mail\SendEmail($content,'subject')
-            );*/
 
             $providerCounter++;
             $emailsCounter++;

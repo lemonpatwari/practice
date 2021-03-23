@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Mail\SendEmail;
+use App\Models\Provider;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -10,6 +11,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Config;
 
 class SendUpComingStudentEmail implements ShouldQueue
 {
@@ -40,6 +42,22 @@ class SendUpComingStudentEmail implements ShouldQueue
      */
     public function handle()
     {
+        /*$configuration = Provider::where("sender_email", $this->provider)->first();
+
+        if(!is_null($configuration)) {
+            $config = array(
+//                'driver'     =>     $configuration->driver,
+                'driver'     =>     'smtp',
+                'host'       =>     $configuration->host,
+                'port'       =>     $configuration->port,
+                'username'   =>     $configuration->sender_name,
+                'password'   =>     $configuration->password,
+                'encryption' =>     $configuration->encryption,
+                'from'       =>     array('address' => $configuration->sender_email, 'name' => $configuration->sender_name),
+            );
+            Config::set('mail', $config);
+        }*/
+
         Mail::to($this->email)->queue(
             new SendEmail($this->content, 'subject')
         );

@@ -1,7 +1,11 @@
 <?php
 
 
-use Illuminate\Support\Facades\Config;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\PracticeController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,27 +23,7 @@ Route::get('/', [PracticeController::class, 'home']);
 
 Route::get('/time', function () {
 
-
-    $configuration = \App\Models\Provider::whereFromAddress('lemonpatwari@gmail.com')->first();
-
-    if (!is_null($configuration)) {
-        $config = array(
-//            'MAIL_DRIVER' => $configuration->driver,
-//            'MAIL_HOST' => $configuration->host,
-//            'MAIL_PORT' => $configuration->port,
-//            'MAIL_FROM_ADDRESS' => $configuration->from_address,
-//            'MAIL_FROM_NAME' => $configuration->from_name,
-//            'MAIL_ENCRYPTION' => $configuration->enccryption,
-            'username' => $configuration->from_name,
-//            'MAIL_PASSWORD' => $configuration->password,
-        );
-        Config::set('mail', $config);
-    }
-
-
-
     return date("Y-m-d h:i:s A", '1616511060');
-
 
 });
 
