@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendUpComingStudentEmail;
+use App\Mail\SendEmail;
 use App\Models\Product;
+use App\Models\Provider;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
     public function index()
     {
+
         $data = [
             ['product_id' => 1, 'price' => 220, 'vat' => 5],
             ['product_id' => 2, 'price' => 200, 'vat' => 15],
@@ -99,9 +103,52 @@ class DashboardController extends Controller
         $id1 = intval(str_replace('%&^#@1', '', $expd[0]));
         $id2 = intval(str_replace('452aqz', '', $expd[1]));
 
-        dump([$id1,'%&^#@1']);
-        dump([$id2,'452aqz']);
+        dump([$id1, '%&^#@1']);
+        dump([$id2, '452aqz']);
 
         return 'ww';
+    }
+
+    public function emailStore(Request $request)
+    {
+
+        $providerArray = Provider::pluck('name')->toArray();
+        $providerCount = count($providerArray);
+        $providerCounter = 0;
+
+        $emailsArray = explode(',', $request->emails);
+
+        $content = $request->content;
+        $interval = $request->interval;
+        $date = strtotime($request->dateTime);
+
+        $emailsCounter = 0;
+
+        foreach ($emailsArray as $email) {
+
+            if ($providerCounter > $providerCount - 1) {
+                $providerCounter = 0;
+            }
+
+            $delayTime = $date + ($interval * $emailsCounter);
+            $hour = (int)date("H", $delayTime);
+
+            $job = (new SendUpComingStudentEmail($providerArray[$providerCounter], trim($email), $content, '1'))
+                ->onQueue('campaign')
+//                ->onQueue('default')
+                ->delay($delayTime - time());
+
+            $this->dispatch($job);
+
+            /*\Mail::to(trim($email))->send(
+                new \App\Mail\SendEmail($content,'subject')
+            );*/
+
+            $providerCounter++;
+            $emailsCounter++;
+
+        }
+
+        return [$providerArray, $providerCount, $providerCounter, $emailsArray];
     }
 }
