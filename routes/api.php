@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CartController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +17,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+//CartController
+
+Route::prefix('v1')->group(function () {
+
+    Route::prefix('cart')->group(function () {
+        Route::get('add-to-cart', [CartController::class, 'index']);
+        Route::get('cart-details', [CartController::class, 'cartDetails']);
+    });
+
 });
