@@ -7,6 +7,8 @@ use App\Mail\SendEmail;
 use App\Models\Product;
 use App\Models\Provider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Config;
 
 class DashboardController extends Controller
 {
@@ -133,11 +135,32 @@ class DashboardController extends Controller
             $delayTime = $date + ($interval * $emailsCounter);
             $hour = (int)date("H", $delayTime);
 
-            $job = (new SendUpComingStudentEmail($providerArray[$providerCounter], trim($email), $content, '1'))
-                ->onQueue('mouse')
+            /*$job = (new SendUpComingStudentEmail($providerArray[$providerCounter], trim($email), $content, '1'))
+                ->onQueue('campaign')
                 ->delay($delayTime - time());
 
-            $this->dispatch($job);
+            $this->dispatch($job);*/
+
+            Artisan::call('config:clear');
+            Artisan::call('config:cache');
+
+            $configuration = Provider::where("sender_email", $providerArray[$providerCounter])->first();
+            if (!is_null($configuration)) {
+                $config = array(
+                    'driver' => $configuration->driver,
+                    'host' => $configuration->host,
+                    'port' => $configuration->port,
+                    'username' => $configuration->sender_name,
+                    'password' => $configuration->password,
+                    'encryption' => $configuration->encryption,
+                    'from' => array('address' => $configuration->sender_email, 'name' => 'DIU'),
+                );
+                Config::set('mail', $config);
+            }
+
+            \Mail::to(trim($email))->send(
+                new SendEmail($content, 'test', $providerArray[$providerCounter])
+            );
 
             $providerCounter++;
             $emailsCounter++;

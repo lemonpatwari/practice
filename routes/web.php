@@ -23,7 +23,12 @@ Route::get('/', [PracticeController::class, 'home']);
 
 Route::get('/time', function () {
 
-    return date("Y-m-d h:i:s A", '1616511060');
+    $data = [
+        'input' => date("Y-m-d h:i:s A", '1616587205'),
+        'current' => date("Y-m-d h:i:s A", time())
+    ];
+
+    return $data;
 
 });
 
@@ -41,9 +46,8 @@ Route::get('/dashboard', function () {
 require __DIR__ . '/auth.php';
 
 
-
-Route::get('/url', [DashboardController::class,'url']);
-Route::get('/test', [DashboardController::class,'test']);
+Route::get('/url', [DashboardController::class, 'url']);
+Route::get('/test', [DashboardController::class, 'test']);
 Route::get('/dashboard', [DashboardController::class, 'index']);
 Route::get('/test', [DashboardController::class, 'test']);
 Route::resource('users', UserController::class);
