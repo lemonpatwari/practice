@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\SendUpComingStudentEmail;
 use App\Mail\SendEmail;
-use App\Models\Product;
 use App\Models\Provider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -113,7 +111,6 @@ class DashboardController extends Controller
 
     public function emailStore(Request $request)
     {
-
         $providerArray = Provider::pluck('sender_email')->toArray();
         $providerCount = count($providerArray);
         $providerCounter = 0;
@@ -133,12 +130,10 @@ class DashboardController extends Controller
             }
 
             $delayTime = $date + ($interval * $emailsCounter);
-            $hour = (int)date("H", $delayTime);
 
             /*$job = (new SendUpComingStudentEmail($providerArray[$providerCounter], trim($email), $content, '1'))
                 ->onQueue('campaign')
                 ->delay($delayTime - time());
-
             $this->dispatch($job);*/
 
             Artisan::call('config:clear');

@@ -44,7 +44,7 @@ class SendUpComingStudentEmail implements ShouldQueue
     public function handle()
     {
         Mail::to($this->email)->queue(
-            new SendEmail($this->provider,$this->content, 'subject')
+            new SendEmail($this->content, 'subject',$this->provider)
         );
     }
 }
