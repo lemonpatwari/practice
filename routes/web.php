@@ -24,8 +24,11 @@ Route::get('/', [PracticeController::class, 'home']);
 Route::get('/time', function () {
 
     $data = [
-        'input' => date("Y-m-d h:i:s A", '1616587205'),
-        'current' => date("Y-m-d h:i:s A", time())
+        'input' => date("Y-m-d h:i:s A", '1616821873'),
+        'max_input' => date("Y-m-d h:i:s A", '1617180621'),
+        'current' => date("Y-m-d h:i:s A", time()),
+        'extra_time' => '1616707526' - time(),
+        'new_time'=> date("Y-m-d h:i:s A", (1616707526 + 114347))
     ];
 
     return $data;
