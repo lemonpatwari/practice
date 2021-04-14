@@ -302,6 +302,7 @@
 <body bgcolor="#fff" topmargin="0" leftmargin="0" marginheight="0" marginwidth="0">
 
 <p>{{ $test ?? 'nai' }}</p>
+<p>{{ $provider ?? 'nai' }}</p>
 
 </body>
 </html>

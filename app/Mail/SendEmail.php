@@ -13,16 +13,18 @@ class SendEmail extends Mailable
 
     public $content;
     public $subject;
+    public $provider;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($content,$subject)
+    public function __construct($content, $subject,$provider)
     {
-        $this->content=$content;
-        $this->subject=$subject;
+        $this->content = $content;
+        $this->subject = $subject;
+        $this->provider =$provider;
     }
 
     /**
@@ -32,6 +34,10 @@ class SendEmail extends Mailable
      */
     public function build()
     {
-        return $this->subject($this->subject)->view('email.index',['test'=> $this->content]);
+        return $this->subject($this->subject)
+            ->view('email.index', [
+                'test' => $this->content,
+                'provider' => $this->provider,
+            ]);
     }
 }
