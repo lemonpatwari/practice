@@ -8,6 +8,6 @@ class PracticeController extends Controller
 {
     public function home()
     {
-        return view('frontend.home.home');
+        return view('welcome');
     }
 }
