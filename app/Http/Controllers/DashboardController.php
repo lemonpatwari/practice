@@ -117,7 +117,8 @@ class DashboardController extends Controller
 
         $emailsArray = explode(',', $request->emails);
 
-        $content = $request->content;
+//        $content = $request->content;
+        $content = '';
         $interval = $request->interval;
         $date = strtotime($request->dateTime);
 
@@ -222,7 +223,7 @@ class DashboardController extends Controller
                 break;
         }
 
-        return view('test2',  compact(
+        return view('test2', compact(
             'button1action',
             'button2action',
             'button3action',
