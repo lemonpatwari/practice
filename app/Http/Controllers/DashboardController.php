@@ -164,4 +164,144 @@ class DashboardController extends Controller
 
         return [$providerArray, $providerCount, $providerCounter, $emailsArray];
     }
+
+
+    public function test2()
+    {
+
+        $fp = fsockopen("172.16.7.88", 6722, $errno, $errstr, 30);
+
+        $opts = array(
+            "start_1" => "11",
+            "stop_1" => "21",
+
+            "start_2" => "12",
+            "stop_2" => "22",
+
+            "start_3" => "13",
+            "stop_3" => "23",
+        );
+
+
+        fwrite($fp, "00");
+        $curstate = fread($fp, 2);
+
+
+        switch ($curstate) {
+            case '01':
+                $td1st = "btn-danger";
+                $td2st = "btn-success";
+                $td3st = "btn-danger";
+                $button1action = "start_1";
+                $button2action = "stop_2";
+                $button3action = "stop_3";
+                break;
+            case '10':
+                $td1st = "btn-success";
+                $td2st = "btn-danger";
+                $td3st = "btn-danger";
+                $button1action = "stop_1";
+                $button2action = "start_2";
+                $button3action = "stop_3";
+                break;
+            case '11':
+                $td1st = "btn-success";
+                $td2st = "btn-success";
+                $td3st = "btn-success";
+                $button1action = "stop_1";
+                $button2action = "stop_2";
+                $button3action = "stop_3";
+                break;
+            default:
+                $td1st = "btn-danger";
+                $td2st = "btn-danger";
+                $td3st = "btn-danger";
+                $button1action = "start_1";
+                $button2action = "start_2";
+                $button3action = "start_3";
+                break;
+        }
+
+        return view('test2',  compact(
+            'button1action',
+            'button2action',
+            'button3action',
+            'td1st',
+            'td2st',
+//            'td3st'
+        ));
+    }
+
+    public function lmn(Request $request)
+    {
+        $fp = fsockopen("172.16.7.88", 6722, $errno, $errstr, 30);
+
+        $opts = array(
+            "start_1" => "11",
+            "stop_1" => "21",
+
+            "start_2" => "12",
+            "stop_2" => "22",
+
+        );
+
+
+        $act = $request->action;
+        fwrite($fp, $opts[$act]);
+
+//        fwrite($fp, 11);
+
+        dump(fwrite($fp, $opts[$act]));
+
+
+        fwrite($fp, "00");
+
+        $curstate = fread($fp, 2);
+
+        dump($curstate);
+
+        switch ($curstate) {
+            case '01':
+                $td1st = "btn-danger";
+                $td2st = "btn-success";
+//                $td3st = "btn-danger";
+                $button1action = "start_1";
+                $button2action = "stop_2";
+//                $button3action = "stop_3";
+                break;
+            case '10':
+                $td1st = "btn-success";
+                $td2st = "btn-danger";
+//                $td3st = "btn-danger";
+                $button1action = "stop_1";
+                $button2action = "start_2";
+//                $button3action = "stop_3";
+                break;
+            case '11':
+                $td1st = "btn-success";
+                $td2st = "btn-success";
+//                $td3st = "btn-success";
+                $button1action = "stop_1";
+                $button2action = "stop_2";
+//                $button3action = "stop_3";
+                break;
+            default:
+                $td1st = "btn-danger";
+                $td2st = "btn-danger";
+//                $td3st = "btn-danger";
+                $button1action = "start_1";
+                $button2action = "start_2";
+//                $button3action = "start_3";
+                break;
+        }
+
+        return view('test2', compact(
+            'button1action',
+            'button2action',
+//            'button3action',
+            'td1st',
+            'td2st',
+//            'td3st'
+        ));
+    }
 }

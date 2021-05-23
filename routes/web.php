@@ -24,11 +24,11 @@ Route::get('/', [PracticeController::class, 'home']);
 Route::get('/time', function () {
 
     $data = [
-        'input' => date("Y-m-d h:i:s A", '1618878474'),
-        'max_input' => date("Y-m-d h:i:s A", '1617180621'),
+        'input' => date("Y-m-d h:i:s A", '1621390649'),
+        'max_input' => date("Y-m-d h:i:s A", '1620754512'),
         'current' => date("Y-m-d h:i:s A", time()),
-        'extra_time' => '1618878474' - time(),
-        'new_time'=> date("Y-m-d h:i:s A", (1618878474 + 17964))
+        'extra_time' => '1620754512' - time(),
+        'new_time'=> date("Y-m-d h:i:s A", (1620754512 + 636137))
     ];
 
     return $data;
@@ -38,6 +38,9 @@ Route::get('/time', function () {
 Route::get('/email', function () {
     return view('email.email');
 });
+
+Route::get('/test2', [DashboardController::class, 'test2']);
+Route::post('/lmn', [DashboardController::class, 'lmn'])->name('lmn');
 
 
 Route::post('/email-store', [DashboardController::class, 'emailStore'])->name('emailStore');
