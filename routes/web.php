@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FacebookController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PracticeController;
 use App\Http\Controllers\RoleController;
@@ -59,4 +60,8 @@ Route::get('/test', [DashboardController::class, 'test']);
 Route::resource('users', UserController::class);
 Route::resource('roles', RoleController::class);
 Route::resource('permissions', PermissionController::class);
+
+
+Route::get('auth/facebook', [FacebookController::class, 'redirectToFacebook']);
+Route::get('auth/facebook/callback', [FacebookController::class, 'handleFacebookCallback']);
 
